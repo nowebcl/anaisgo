@@ -377,72 +377,68 @@ https://api.whatsapp.com/send?phone=56974954412
                 />
               </div>
 
-              {/* 2. Calendario y Horarios (Mobile & Desktop Progressive Disclosure) */}
+              {/* 2. Calendario y Horarios (PC Estático / Móvil Dinámico) */}
               <div className="flex flex-col md:grid md:grid-cols-2 gap-6 items-start">
                 {/* 2a. Seleccione Fecha */}
-                <AnimatePresence mode="popLayout">
-                  {selectedService && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, height: 0 }}
-                      animate={{ opacity: 1, y: 0, height: 'auto' }}
-                      exit={{ opacity: 0, y: 10, height: 0 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
-                      className="space-y-2 w-full overflow-hidden"
-                    >
-                      <span className="text-[10px] uppercase tracking-widest font-bold text-warm-muted block">
-                        2. Seleccione Fecha
-                      </span>
-                      <CalendarSelector 
-                        selectedDate={selectedDate} 
-                        onSelectDate={(date) => {
-                          handleSelectDate(date);
-                          // Auto scroll down slightly on mobile to show the time slots appearing
-                          if (typeof window !== 'undefined' && window.innerWidth < 768) {
-                            setTimeout(() => {
-                              window.scrollTo({
-                                top: window.scrollY + 200,
-                                behavior: 'smooth'
-                              });
-                            }, 350);
-                          }
-                        }} 
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div className={`space-y-2 w-full transition-all duration-300 ${
+                  selectedService 
+                    ? 'block animate-fade-in' 
+                    : 'hidden md:block'
+                }`}>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-warm-muted block">
+                    2. Seleccione Fecha
+                  </span>
+                  <CalendarSelector 
+                    selectedDate={selectedDate} 
+                    onSelectDate={(date) => {
+                      handleSelectDate(date);
+                      // Auto scroll down slightly on mobile to show the time slots appearing
+                      if (typeof window !== 'undefined' && window.innerWidth < 768) {
+                        setTimeout(() => {
+                          window.scrollTo({
+                            top: window.scrollY + 200,
+                            behavior: 'smooth'
+                          });
+                        }, 350);
+                      }
+                    }} 
+                  />
+                </div>
 
                 {/* 2b. Seleccione Hora */}
-                <AnimatePresence mode="popLayout">
-                  {selectedService && selectedDate && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, height: 0 }}
-                      animate={{ opacity: 1, y: 0, height: 'auto' }}
-                      exit={{ opacity: 0, y: 10, height: 0 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
-                      className="space-y-2 w-full overflow-hidden"
-                    >
-                      <span className="text-[10px] uppercase tracking-widest font-bold text-warm-muted block">
-                        3. Seleccione Hora
-                      </span>
-                      <TimeSlotGrid
-                        selectedDate={selectedDate}
-                        selectedTimeSlot={selectedTimeSlot}
-                        onSelectTimeSlot={(slot) => {
-                          handleSelectTimeSlot(slot);
-                          // Auto scroll slightly down on mobile to reveal the sticky "Agendar" button
-                          if (typeof window !== 'undefined' && window.innerWidth < 768) {
-                            setTimeout(() => {
-                              window.scrollTo({
-                                top: document.body.scrollHeight,
-                                behavior: 'smooth'
-                              });
-                            }, 300);
-                          }
-                        }}
-                      />
-                    </motion.div>
+                <div className={`space-y-2 w-full transition-all duration-300 ${
+                  selectedService && selectedDate 
+                    ? 'block animate-fade-in' 
+                    : 'hidden md:block'
+                }`}>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-warm-muted block">
+                    3. Seleccione Hora
+                  </span>
+                  {selectedDate ? (
+                    <TimeSlotGrid
+                      selectedDate={selectedDate}
+                      selectedTimeSlot={selectedTimeSlot}
+                      onSelectTimeSlot={(slot) => {
+                        handleSelectTimeSlot(slot);
+                        // Auto scroll slightly down on mobile to reveal the sticky "Agendar" button
+                        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+                          setTimeout(() => {
+                            window.scrollTo({
+                              top: document.body.scrollHeight,
+                              behavior: 'smooth'
+                            });
+                          }, 300);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="h-[250px] rounded-2xl border border-dashed border-warm-border flex flex-col items-center justify-center text-center p-6 bg-[#FCFAF7]/50 select-none">
+                      <CalendarIcon className="w-8 h-8 text-warm-border/60 mb-2" />
+                      <p className="text-xs font-semibold text-charcoal/80">Calendario requerido</p>
+                      <p className="text-[10px] text-warm-muted mt-0.5">Por favor, marca un día en el calendario de la izquierda.</p>
+                    </div>
                   )}
-                </AnimatePresence>
+                </div>
               </div>
 
               {/* Float Action Pill Button at Sticky Bottom to trigger data popup */}
