@@ -755,7 +755,18 @@ https://api.whatsapp.com/send?phone=56974954412
       {/* Footer styled elegantly */}
       <footer className="text-center text-[10px] text-warm-muted mt-8 pt-4 border-t border-warm-border">
         <p>&copy; {new Date().getFullYear()} Anaís Rodríguez | Consulta Psicológica. Todos los derechos reservados.</p>
-        <p className="mt-0.5 opacity-85">Consulta física en Santiago Centro. Atención online vía telemedicina de alta seguridad.</p>
+        <p className="mt-0.5 opacity-85">Consulta física en Puerto Montt. Atención online vía telemedicina de alta seguridad.</p>
+        <p className="mt-1 opacity-75">
+          Desarrollado por{' '}
+          <a 
+            href="https://www.noweb.cl" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:underline hover:text-gold-hover transition-colors duration-200 font-medium"
+          >
+            noweb labs
+          </a>
+        </p>
       </footer>
     </div>
   );
