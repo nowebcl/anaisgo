@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Reglas para la colección de Servicios (Terapia Individual, Pareja, etc.)
+    match /services/{serviceId} {
+      allow read: if true;
+      // Permitimos escritura abierta para el flujo de Seeding automático desde el cliente en la demo
+      allow write: if true;
+    }
+    
+    // Reglas para la colección de Citas (Appointments)
+    match /appointments/{appointmentId} {
+      // Cualquier paciente debe poder leer citas (para verificar disponibilidad) y crearlas
+      allow read, create: if true;
+      // El panel administrativo debe poder actualizar (confirmar) y eliminar (liberar/cancelar) citas
+      allow update, delete: if true;
+    }
+  }
+}
